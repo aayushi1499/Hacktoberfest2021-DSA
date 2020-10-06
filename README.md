@@ -1,2 +1,2 @@
 # DSA
-Some important data structures and algorithms problems and their solutions
+Contribute your solutions to some data structures & algorithms problems and their solutions
