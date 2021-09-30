@@ -1,7 +1,9 @@
-#include<bits/stdc++.h>
-#define size 100
+#include <bits/stdc++.h>
+#include <iostream>
+
+#define size 1000
 using namespace std;
-int merge(int arr[],int beg,int mid,int end){
+void merge(int arr[],int beg,int mid,int end){
 
     int i=beg,j=mid+1,index=beg,temp[size];
     while((i<=mid)&&(j<=end)){
@@ -32,7 +34,7 @@ int merge(int arr[],int beg,int mid,int end){
         arr[k]=temp[k];
     }
 }
-int merge_sort(int arr[],int beg,int end){
+void merge_sort(int arr[],int beg,int end){
 int mid;
 if(beg<end){
         mid=(beg+end)/2;
@@ -41,8 +43,11 @@ if(beg<end){
         merge_sort(arr,mid+1,end);
         merge(arr,beg,mid,end);
 
-}}
-int main(){
+}
+ }
+
+int main()
+{
 int arr[]={39,9,81,45,90,27,72,18};
 int n=sizeof(arr)/sizeof(arr[0]);
 
@@ -51,4 +56,5 @@ for(int i=0;i<n;i++){
     printf("%d ",arr[i]);
 }
 
+return 0;
 }
