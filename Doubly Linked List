@@ -1,0 +1,69 @@
+#include <iostream>
+using namespace std;
+  
+// A doubly linked list node
+struct Node {
+   int data;
+   struct Node* next;
+   struct Node* prev;
+};
+  
+//inserts node at the front of the list
+void insert_front(struct Node** head, int new_data)
+{
+   //allocate memory for New node
+   struct Node* newNode = new Node;
+  
+   //assign data to new node
+   newNode->data = new_data;
+  
+   //new node is head and previous is null, since we are adding at the front
+   newNode->next = (*head);
+   newNode->prev = NULL;
+  
+   //previous of head is new node
+   if ((*head) != NULL)
+   (*head)->prev = newNode;
+  
+   //head points to new node
+   (*head) = newNode;
+}
+void displayList(struct Node* head) {
+ struct node *ptr;  
+    if(head == NULL)  
+    {  
+        printf("\nEmpty List\n");  
+    }  
+    else   
+    {  
+        ptr = head;  
+        while(ptr != NULL)  
+        {  
+            printf("%d\n",ptr -> data);  
+            ptr = ptr -> next;  
+        } 
+        } 
+  
+  int main() {
+   /* Start with the empty list */
+   struct Node* head = NULL;
+  
+   // Insert 40 as last node
+   //insert_end(&head, 40);
+  
+   // insert 20 at the head
+   insert_front(&head, 20);
+  
+   // Insert 10 at the beginning.
+   insert_front(&head, 10);
+  
+   // Insert 50 at the end.
+   //insert_end(&head, 50);
+  
+   // Insert 30, after 20.
+   //insert_After(head->next, 30);
+  
+   cout<<"Doubly linked list is as follows: "<<endl;
+   displayList(head);
+   return 0;
+}
