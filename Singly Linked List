@@ -1,0 +1,163 @@
+#include <iostream>
+using namespace std;
+
+struct Node
+
+{
+	
+	        int data;
+	       struct Node* next;
+};
+
+void PrintList(Node* n)
+{
+	while (n!= NULL)
+	{
+		cout<< n->data <<" ";
+	    n = n->next;
+    }
+}
+void Insert_at_begin(Node** head, int new_data)
+{
+	Node* new_node = new Node();
+	new_node->data = new_data;     // or new_node->data = new_data
+	new_node->next = (*head);         //taking address of node which head was pointing previously
+	(*head) = new_node;	       // giving head the address of our new node so it can point to our new node
+}
+
+void Insert_After( Node* prev_node , int new_data)
+{
+	if(prev_node == NULL )
+	{
+		cout<<"Underflow Condition"<<endl;
+		return;
+	}
+	Node* new_node = new Node();
+    new_node->data = new_data;
+    new_node->next = prev_node->next;  // taking address of node which prev was pointing previously
+    prev_node->next = new_node;  // giving prev address of our new node
+
+}
+
+void Insert_AT_End( Node** head , int new_data)
+{
+	Node* last = *head;
+	Node* new_node = new Node();
+	new_node->data = new_data;
+	new_node->next =NULL;
+	if(*head == NULL)
+	{
+		*head = new_node;             //giving head address of our new node
+		return;
+	}
+	while (last->next != NULL)
+	{
+		last = last->next;
+	}
+	last->next = new_node;      //giving the last node address of our new node
+}
+
+void Deletion_At_Start( struct Node** head)
+{
+
+	// here we have created a temoorary pointer temp which will be used to delete our first node
+  //in our linked list so -	
+	
+	   struct Node *temp = *head; //we have now given the address of first node which is to be deleted to tmp so now tmp is virtually first node which will points to second node in linkked list.
+
+
+        *head= temp->next; // now we will give address of second node to head so that head will now point to seond node and after deletion of first node it will becoe first node of linked list.
+       free(temp);
+}
+void Deletion_At_End(struct Node** head)
+{
+
+	 struct Node *current = *head;
+	 struct Node *previous;
+	 struct Node *tail;
+	 while(current != NULL)
+	 {
+	 	previous = current;
+	 	current = current->next;
+	 }
+	 //tail = previous;
+	 free(previous->next);
+	 previous->next = NULL;
+	// free(current);
+}
+ 
+void deleteNode(Node **head_ref, int position)
+{
+     
+    // If linked list is empty
+    if (*head_ref == NULL)
+        return;
+     
+    // Store head node
+    Node* temp = *head_ref;
+ 
+    // If head needs to be removed
+    if (position == 0)
+    {
+         
+        // Change head
+        *head_ref = temp->next;
+         
+        // Free old head
+        free(temp);            
+        return;
+    }
+ 
+    // Find previous node of the node to be deleted
+    for(int i = 0; temp != NULL && i < position - 1; i++)
+        temp = temp->next;
+ 
+    // If position is more than number of nodes
+    if (temp == NULL || temp->next == NULL)
+        return;
+ 
+    // Node temp->next is the node to be deleted
+    // Store pointer to the next of node to be deleted
+     Node *next = temp->next->next;
+ 
+    // Unlink the node from linked list
+    free(temp->next); // Free memory
+     
+    // Unlink the deleted node from list
+    temp->next = next;
+}
+
+
+
+
+int main(int argc, char const *argv[])
+{
+
+	Node* head = NULL;
+	Node* second = NULL;
+	Node* third = NULL;
+
+  head = new Node();
+  second = new Node();
+  third = new Node();
+
+  head->data = 1;
+  head->next = second;
+
+  second->data = 2;
+  second->next = third;
+
+  third->data = 3;
+  third->next = NULL;
+
+  Insert_at_begin(&head,7);
+  Insert_After(head->next, 8);
+  Insert_AT_End(&head , 10);
+  Deletion_At_Start(&head);
+  Deletion_At_End(&head);
+  deleteNode(&head, 4);
+  PrintList(head);
+
+
+	return 0;
+}
