@@ -1,0 +1,52 @@
+// Write a program to find the nearest smaller element or next smaller element to the right of each element in an array.
+// For example-       array: 5  6  4  2  8
+//                ans_array: 4  4  2 -1 -1
+
+// Time Complexity: - O(N)
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    ios_base::sync_with_stdio(false);   cin.tie(NULL);    // For fast input output
+    
+    int n;   //size of array
+    cin>>n;
+    int a[n],i;   
+    for(i=0;i<n;i++)cin>>a[i];         // Taking input of array elements
+    
+    stack<int> s;
+    int ans_array[n];
+    
+    for(i=n-1;i>=0;i--)
+    {
+        if( s.empty()==1 )   
+        {
+            ans_array[i]=-1;
+            s.push(a[i]);
+        }
+        else if(s.empty()!=1)
+        {
+            while(s.empty()!=1 && a[i]<s.top())
+            {
+                s.pop();
+            }
+            if(s.empty()==1) ans_array[i]=-1;
+            else ans_array[i]= s.top();
+            
+            s.push(a[i]);
+        }
+    }
+    
+    for(i=0;i<n;i++)
+    {
+        cout<<ans_array[i]<<" ";            //Printing the neraest smallest elemnt on right of every element in array. 
+    }
+   
+  
+}
+
+
+
+
