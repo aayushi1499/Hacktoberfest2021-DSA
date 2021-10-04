@@ -5,7 +5,8 @@ using namespace std;
 #define fast ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0)
 const int mod = 1e9 + 7;
 
-// returns the minimum path sum in a grid
+// returns the sum of minimum path in a grid 
+// to reach from leftmost element in top row to rightmost element in the last row
 int minPathSum(vector<vector<int>>& grid) {
 	int inf = INT_MAX;
 	int n = grid.size(), m = grid[0].size();
