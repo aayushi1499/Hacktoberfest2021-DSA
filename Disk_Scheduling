@@ -1,0 +1,279 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void FCFS(int tracks[], int n, int position)
+{
+	int trackMovements = 0;
+	int seekSequence[100];
+	for (int i = 0; i < n; i++)
+	{
+		int difference = abs(position - tracks[i]);
+		trackMovements += difference;
+		position = tracks[i];
+	}
+
+	printf("Seek Time =%d\n", trackMovements);
+}
+
+int getPosition(int position, int n, int tracks[])
+{
+	int pos;
+	for (int i = 0; i < n; i++)
+	{
+		if (tracks[i] == position)
+		{
+			pos = i;
+			break;
+		}
+	}
+
+	return pos;
+}
+
+void SCAN(int tracks[], int n, char direction[], int position)
+{
+	int trackMovements = 0, index = -1;
+	int seekSequence[100];
+	int pos = getPosition(position, n, tracks);
+	int value = strcmp(direction, "left");
+	printf("value is %d\n", value);
+	int a = position;
+	if (value == 0)
+	{
+		for (int i = pos - 1; i >= 0; i--)
+		{
+			index += 1;
+			seekSequence[index] = tracks[i];
+			int difference = abs(a - tracks[i]);
+			trackMovements += difference;
+			a = tracks[i];
+		}
+		index += 1;
+		seekSequence[index] = 0;
+		int difference = abs(a - 0);
+		trackMovements += difference;
+		a = 0;
+		for (int i = pos + 1; i < n; i++)
+		{
+			index += 1;
+			seekSequence[index] = tracks[i];
+			int difference = abs(a - tracks[i]);
+			trackMovements += difference;
+			a = tracks[i];
+		}
+	}
+
+	else
+	{
+		for (int i = pos + 1; i < n; i++)
+		{
+			index += 1;
+			seekSequence[index] = tracks[i];
+			int difference = abs(a - tracks[i]);
+			trackMovements += difference;
+			a = tracks[i];
+		}
+		index += 1;
+		seekSequence[index] = 199;
+		int difference = abs(a - 199);
+		trackMovements += difference;
+		a = 199;
+		for (int i = pos - 1; i >= 0; i--)
+		{
+			index += 1;
+			seekSequence[index] = tracks[i];
+			int difference = abs(a - tracks[i]);
+			trackMovements += difference;
+			a = tracks[i];
+		}
+	}
+	printf("The seek sequence is \n");
+	for (int i = 0; i <= index; i++)
+	{
+		printf("%d ", seekSequence[i]);
+	}
+
+	printf("\nSeek Time =%d\n", trackMovements);
+}
+
+void CSCAN(int tracks[], int n, char direction[], int position)
+{
+	int trackMovements = 0, index = -1;
+	int seekSequence[100];
+	int pos = getPosition(position, n, tracks);
+	int value = strcmp(direction, "left");
+	printf("value is %d\n", value);
+	int a = position;
+	if (value == 0)
+	{
+		for (int i = pos - 1; i >= 0; i--)
+		{
+			index += 1;
+			seekSequence[index] = tracks[i];
+			int difference = abs(a - tracks[i]);
+			trackMovements += difference;
+			a = tracks[i];
+		}
+		index += 1;
+		seekSequence[index] = 0;
+		int difference = abs(a - 0);
+		trackMovements += difference;
+		a = 0;
+		index += 1;
+		seekSequence[index] = 199;
+		difference = abs(a - 199);
+		trackMovements += difference;
+		a = 199;
+		for (int i = n - 1; i <= pos + 1; i--)
+		{
+			index += 1;
+			seekSequence[index] = tracks[i];
+			int difference = abs(a - tracks[i]);
+			trackMovements += difference;
+			a = tracks[i];
+		}
+	}
+
+	else
+	{
+		for (int i = pos + 1; i < n; i++)
+		{
+			index += 1;
+			seekSequence[index] = tracks[i];
+			int difference = abs(a - tracks[i]);
+			trackMovements += difference;
+			a = tracks[i];
+		}
+		index += 1;
+		seekSequence[index] = 199;
+		int difference = abs(a - 199);
+		trackMovements += difference;
+		a = 199;
+		index += 1;
+		seekSequence[index] = 0;
+		difference = abs(a - 0);
+		trackMovements += difference;
+		a = 0;
+		for (int i = 0; i <= pos - 1; i++)
+		{
+			index += 1;
+			seekSequence[index] = tracks[i];
+			int difference = abs(a - tracks[i]);
+			trackMovements += difference;
+			a = tracks[i];
+		}
+	}
+	printf("The seek sequence is \n");
+	for (int i = 0; i <= index; i++)
+	{
+		printf("%d ", seekSequence[i]);
+	}
+
+	printf("\nSeek Time =%d\n", trackMovements);
+}
+
+int main()
+{
+
+	int choice;
+	int n, tracks[100], position;
+	char direction[100];
+	int x = 1;
+	while (x)
+	{
+		printf("\nPress 1 for FCFS\nPress 2 for SCAN\nPress 3 for CSCAN\nPress 0 to exit\n\n");
+		scanf("%d", &choice);
+		switch (choice)
+		{
+
+		case 1:
+		{   printf("\n<=================FCFS===============>\n\n");
+			printf("Enter the number of requests\n");
+			scanf("%d", &n);
+			printf("Enter the request sequence\n");
+			for (int i = 0; i < n; i++)
+			{
+				scanf("%d", &tracks[i]);
+			}
+			printf("Enter the position of read-write head\n");
+			scanf("%d", &position);
+			FCFS(tracks, n, position);
+			printf("The seek sequence is \n");
+			for (int i = 0; i < n; i++)
+			{
+				printf("%d ", tracks[i]);
+			}
+				printf("\n");
+			break;
+		}
+
+		case 2:
+		{ printf("\n<=================SCAN===============>\n\n");
+			printf("Enter the number of requests\n");
+			scanf("%d", &n);
+			printf("Enter the request sequence\n");
+			for (int i = 0; i < n; i++)
+			{
+				scanf("%d", &tracks[i]);
+			}
+			printf("Enter the position of read-write head\n");
+			scanf("%d", &position);
+			printf("Enter the direction of traversal (Type left\\right)\n");
+			scanf("%s", direction);
+			tracks[n] = position;
+			n += 1;
+			for (int i = 0; i < n - 1; i++)
+			{
+				for (int j = 0; j < n - i - 1; j++)
+				{
+					if (tracks[j] > tracks[j + 1])
+					{
+						int temp = tracks[j];
+						tracks[j] = tracks[j + 1];
+						tracks[j + 1] = temp;
+					}
+				}
+			}
+
+			SCAN(tracks, n, direction, position);
+			break;
+		}
+		case 3:
+		{ printf("\n<=================CSCAN===============>\n\n");
+			printf("Enter the number of requests\n");
+			scanf("%d", &n);
+			printf("Enter the request sequence\n");
+			for (int i = 0; i < n; i++)
+			{
+				scanf("%d", &tracks[i]);
+			}
+			printf("Enter the position of read-write head\n");
+			scanf("%d", &position);
+			printf("Enter the direction of traversal (Type left\\right)\n");
+			scanf("%s", direction);
+			tracks[n] = position;
+			n += 1;
+			for (int i = 0; i < n - 1; i++)
+			{
+				for (int j = 0; j < n - i - 1; j++)
+				{
+					if (tracks[j] > tracks[j + 1])
+					{
+						int temp = tracks[j];
+						tracks[j] = tracks[j + 1];
+						tracks[j + 1] = temp;
+					}
+				}
+			}
+
+			CSCAN(tracks, n, direction, position);
+			break;
+		}
+		case 0:
+		{
+			x = 0;
+			break;
+		}
+		}
+	}
