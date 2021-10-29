@@ -7,7 +7,7 @@ public:
         int n;
     void sort();
     };
-void printStack(stack<int> s)
+void printStack(stack<int> s) //printStack function will display the elemnts of stack.
 {
     while(!s.empty()){
         printf("%d ",s.top());
@@ -15,8 +15,8 @@ void printStack(stack<int> s)
     }
     printf("\n");
 }
-int main(){
-int t;
+int main(void){
+int t; //variable declaration
 cin>>t;
 while(t--){
         SortedStack *ss = new SortedStack();
@@ -31,6 +31,7 @@ int n;
         printStack(ss->s);
 
 }
+    return 0;
 }
 void SortedStack :: sort()
 
