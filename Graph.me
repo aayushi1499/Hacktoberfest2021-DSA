@@ -1,0 +1,185 @@
+Graph
+A graph can be defined as group of vertices and edges that are used to connect these vertices. A graph can be seen as a cyclic tree, where the vertices (Nodes) maintain any complex relationship among them instead of having parent child relationship.
+
+Definition
+A graph G can be defined as an ordered set G(V, E) where V(G) represents the set of vertices and E(G) represents the set of edges which are used to connect these vertices.
+
+A Graph G(V, E) with 5 vertices (A, B, C, D, E) and six edges ((A,B), (B,C), (C,E), (E,D), (D,B), (D,A)) is shown in the following figure.
+
+
+Graph
+Directed and Undirected Graph
+A graph can be directed or undirected. However, in an undirected graph, edges are not associated with the directions with them. An undirected graph is shown in the above figure since its edges are not attached with any of the directions. If an edge exists between vertex A and B then the vertices can be traversed from B to A as well as A to B.
+
+
+In a directed graph, edges form an ordered pair. Edges represent a specific path from some vertex A to another vertex B. Node A is called initial node while node B is called terminal node.
+
+A directed graph is shown in the following figure.
+
+
+Graph
+Graph Terminology
+Path
+A path can be defined as the sequence of nodes that are followed in order to reach some terminal node V from the initial node U.
+
+Closed Path
+A path will be called as closed path if the initial node is same as terminal node. A path will be closed path if V0=VN.
+
+Simple Path
+If all the nodes of the graph are distinct with an exception V0=VN, then such path P is called as closed simple path.
+
+Cycle
+A cycle can be defined as the path which has no repeated edges or vertices except the first and last vertices.
+
+Connected Graph
+A connected graph is the one in which some path exists between every two vertices (u, v) in V. There are no isolated nodes in connected graph.
+
+Complete Graph
+A complete graph is the one in which every node is connected with all other nodes. A complete graph contain n(n-1)/2 edges where n is the number of nodes in the graph.
+
+
+Weighted Graph
+In a weighted graph, each edge is assigned with some data such as length or weight. The weight of an edge e can be given as w(e) which must be a positive (+) value indicating the cost of traversing the edge.
+
+Digraph
+A digraph is a directed graph in which each edge of the graph is associated with some direction and the traversing can be done only in the specified direction.
+
+Loop
+An edge that is associated with the similar end points can be called as Loop.
+
+Adjacent Nodes
+If two nodes u and v are connected via an edge e, then the nodes u and v are called as neighbours or adjacent nodes.
+
+Degree of the Node
+A degree of a node is the number of edges that are connected with that node. A node with degree 0 is called as isolated node.
+Graph Representation
+By Graph representation, we simply mean the technique which is to be used in order to store some graph into the computer's memory.
+
+There are two ways to store Graph into the computer's memory. In this part of this tutorial, we discuss each one of them in detail.
+
+1. Sequential Representation
+In sequential representation, we use adjacency matrix to store the mapping represented by vertices and edges. In adjacency matrix, the rows and columns are represented by the graph vertices. A graph having n vertices, will have a dimension n x n.
+
+An entry Mij in the adjacency matrix representation of an undirected graph G will be 1 if there exists an edge between Vi and Vj.
+
+An undirected graph and its adjacency matrix representation is shown in the following figure.
+
+
+Graph Representation
+By Graph representation, we simply mean the technique which is to be used in order to store some graph into the computer's memory.
+
+There are two ways to store Graph into the computer's memory. In this part of this tutorial, we discuss each one of them in detail.
+
+1. Sequential Representation
+In sequential representation, we use adjacency matrix to store the mapping represented by vertices and edges. In adjacency matrix, the rows and columns are represented by the graph vertices. A graph having n vertices, will have a dimension n x n.
+
+An entry Mij in the adjacency matrix representation of an undirected graph G will be 1 if there exists an edge between Vi and Vj.
+
+An undirected graph and its adjacency matrix representation is shown in the following figure.
+
+
+Detect Cycle in a Directed Graph
+Difficulty Level : Medium
+Last Updated : 06 Jul, 2021
+Given a directed graph, check whether the graph contains a cycle or not. Your function should return true if the given graph contains at least one cycle, else return false.
+Example, 
+ 
+
+Input: n = 4, e = 6
+0 -> 1, 0 -> 2, 1 -> 2, 2 -> 0, 2 -> 3, 3 -> 3
+Output: Yes
+Program:-
+// A C++ Program to detect cycle in a graph
+#include<bits/stdc++.h>
+
+using namespace std;
+
+class Graph
+{
+	int V; // No. of vertices
+	list<int> *adj; // Pointer to an array containing adjacency lists
+	bool isCyclicUtil(int v, bool visited[], bool *rs); // used by isCyclic()
+public:
+	Graph(int V); // Constructor
+	void addEdge(int v, int w); // to add an edge to graph
+	bool isCyclic(); // returns true if there is a cycle in this graph
+};
+
+Graph::Graph(int V)
+{
+	this->V = V;
+	adj = new list<int>[V];
+}
+
+void Graph::addEdge(int v, int w)
+{
+	adj[v].push_back(w); // Add w to v’s list.
+}
+
+// This function is a variation of DFSUtil()
+bool Graph::isCyclicUtil(int v, bool visited[], bool *recStack)
+{
+	if(visited[v] == false)
+	{
+		// Mark the current node as visited and part of recursion stack
+		visited[v] = true;
+		recStack[v] = true;
+
+		// Recur for all the vertices adjacent to this vertex
+		list<int>::iterator i;
+		for(i = adj[v].begin(); i != adj[v].end(); ++i)
+		{
+			if ( !visited[*i] && isCyclicUtil(*i, visited, recStack) )
+				return true;
+			else if (recStack[*i])
+				return true;
+		}
+
+	}
+	recStack[v] = false; // remove the vertex from recursion stack
+	return false;
+}
+
+// Returns true if the graph contains a cycle, else false.
+// This function is a variation of DFS() 
+bool Graph::isCyclic()
+{
+	// Mark all the vertices as not visited and not part of recursion
+	// stack
+	bool *visited = new bool[V];
+	bool *recStack = new bool[V];
+	for(int i = 0; i < V; i++)
+	{
+		visited[i] = false;
+		recStack[i] = false;
+	}
+
+	// Call the recursive helper function to detect cycle in different
+	// DFS trees
+	for(int i = 0; i < V; i++)
+		if (isCyclicUtil(i, visited, recStack))
+			return true;
+
+	return false;
+}
+
+int main()
+{
+	// Create a graph given in the above diagram
+	Graph g(4);
+	g.addEdge(0, 1);
+	g.addEdge(0, 2);
+	g.addEdge(1, 2);
+	g.addEdge(2, 0);
+	g.addEdge(2, 3);
+	g.addEdge(3, 3);
+
+	if(g.isCyclic())
+		cout << "Graph contains cycle";
+	else
+		cout << "Graph doesn't contain cycle";
+	return 0;
+}
+Output: 
+
+Graph contains cycle
