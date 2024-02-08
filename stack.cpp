@@ -1,4 +1,4 @@
-/* Report-7
+Report-7
 To implement stack using array */
 #include<stdio.h>
 #include<stdlib.h>
